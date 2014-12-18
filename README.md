@@ -4,11 +4,13 @@ A `Preference` that shows a `Dialog` with a `SeekBar` widget.
 
 ## Usage
 
-This `SeekBarPreference` is written according to `EditTextPreference` implementation, and can be used in the same way.
+This `SeekBarPreference` is written according to `EditTextPreference` implementation, and can be used in a similar way.
 
 Attributes set in XML can also apply to the `SeekBar` in the dialog.
 
 For instance, you can specify `android:max` in XML to set the maximum value for the `SeekBar`.
+
+You can also get and customize the `SeekBar` that will appear in the `Dialog` by calling `SeekBarPreference.getSeekBar()`
 
 ## License
 
