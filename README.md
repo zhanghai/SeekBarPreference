@@ -10,7 +10,7 @@ Attributes set in XML can also apply to the `SeekBar` in the dialog.
 
 For instance, you can specify `android:max` in XML to set the maximum value for the `SeekBar`.
 
-You can also get and customize the `SeekBar` that will appear in the `Dialog` by calling `SeekBarPreference.getSeekBar()`
+You can also get and customize the `SeekBar` that will appear in the `Dialog` by calling `SeekBarPreference.getSeekBar()`.
 
 ## License
 
