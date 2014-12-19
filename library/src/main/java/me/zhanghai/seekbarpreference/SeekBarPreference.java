@@ -120,12 +120,12 @@ public class SeekBarPreference extends DialogPreference {
     }
 
     /**
-     * Returns the original summary of this Preference, not formatted as in getSummary().
+     * Returns the raw summary of this Preference, not formatted as in getSummary().
      *
-     * @return The original summary.
+     * @return The raw summary.
      * @see #getSummary()
      */
-    public CharSequence getOriginalSummary() {
+    public CharSequence getRawSummary() {
         return super.getSummary();
     }
 
