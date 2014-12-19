@@ -12,6 +12,8 @@ For instance, you can specify `android:max` in XML to set the maximum value for 
 
 You can also get and customize the `SeekBar` that will appear in the `Dialog` by calling `SeekBarPreference.getSeekBar()`.
 
+The summary of `SeekBarPreference` is optionally formatted with its progress and max. You can also subclass it and use `SeekBarPreference.getOriginalSummary()` to format with your custom information.
+
 ## License
 
     Copyright 2014 Zhang Hai

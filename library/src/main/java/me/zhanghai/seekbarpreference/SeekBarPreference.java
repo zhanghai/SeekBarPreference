@@ -80,7 +80,7 @@ public class SeekBarPreference extends DialogPreference {
      *
      * @param progress The progress to save
      */
-    private void setProgress(int progress) {
+    public void setProgress(int progress) {
 
         if (progress > mSeekBar.getMax()) {
             progress = mSeekBar.getMax();
@@ -106,6 +106,32 @@ public class SeekBarPreference extends DialogPreference {
         return mProgress;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public CharSequence getSummary() {
+        CharSequence summary = super.getSummary();
+        if (summary == null) {
+            return null;
+        } else {
+            return String.format(summary.toString(), getProgress(), mSeekBar.getMax());
+        }
+    }
+
+    /**
+     * Returns the original summary of this Preference, not formatted as in getSummary().
+     *
+     * @return The original summary.
+     * @see #getSummary()
+     */
+    public CharSequence getOriginalSummary() {
+        return super.getSummary();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
@@ -161,6 +187,9 @@ public class SeekBarPreference extends DialogPreference {
         });
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onDialogClosed(boolean positiveResult) {
         super.onDialogClosed(positiveResult);
@@ -173,11 +202,17 @@ public class SeekBarPreference extends DialogPreference {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected Object onGetDefaultValue(TypedArray a, int index) {
         return a.getInt(index, 0);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
         setProgress(restoreValue ? getPersistedInt(mProgress) : (Integer) defaultValue);
