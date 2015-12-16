@@ -42,8 +42,8 @@ public class SeekBarPreference extends DialogPreference {
                                                     Preference preference) {
 
         if (preference instanceof SeekBarPreference) {
-            // TODO: Call getChildFragmentManager() instead? But support library calls
-            // getFragmentManager() inside PreferenceFragmentCompat.
+            // getChildFragmentManager() will lead to looking for target fragment in the child
+            // fragment manager.
             FragmentManager fragmentManager = preferenceFragment.getFragmentManager();
             if(fragmentManager.findFragmentByTag(DIALOG_FRAGMENT_TAG) == null) {
                 SeekBarPreferenceDialogFragment dialogFragment =

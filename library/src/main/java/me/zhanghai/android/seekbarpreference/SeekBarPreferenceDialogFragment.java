@@ -28,13 +28,6 @@ public class SeekBarPreferenceDialogFragment extends PreferenceDialogFragmentCom
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mSeekBar = getSeekBarPreference().getSeekBar();
-    }
-
-    @Override
     protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
         super.onPrepareDialogBuilder(builder);
 
@@ -61,6 +54,8 @@ public class SeekBarPreferenceDialogFragment extends PreferenceDialogFragmentCom
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
 
+        // Don't do this in onCreate(): our target PreferenceFragment may not be ready yet.
+        mSeekBar = getSeekBarPreference().getSeekBar();
         mSeekBar.setProgress(getSeekBarPreference().getProgress());
 
         ViewParent oldParent = mSeekBar.getParent();
