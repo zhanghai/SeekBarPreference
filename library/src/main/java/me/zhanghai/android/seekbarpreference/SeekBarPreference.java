@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.preference.DialogPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
+import android.support.v7.widget.AppCompatSeekBar;
 import android.util.AttributeSet;
 import android.widget.SeekBar;
 
@@ -90,7 +91,7 @@ public class SeekBarPreference extends DialogPreference {
             setDialogLayoutResource(R.layout.sbp_preference_dialog_seekbar);
         }
 
-        mSeekBar = new SeekBar(context, attrs);
+        mSeekBar = new AppCompatSeekBar(context, attrs);
         mSeekBar.setId(R.id.sbp_seekbar);
         /*
          * The preference framework and view framework both have an 'enabled'
