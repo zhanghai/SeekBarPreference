@@ -87,7 +87,7 @@ public class SeekBarPreference extends DialogPreference {
 
         // Catch the case when no style is provided.
         if (getDialogLayoutResource() == 0) {
-            setDialogLayoutResource(R.layout.preference_dialog_seekbar);
+            setDialogLayoutResource(R.layout.sbp_preference_dialog_seekbar);
         }
 
         mSeekBar = new SeekBar(context, attrs);
