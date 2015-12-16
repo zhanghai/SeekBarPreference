@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<resources>
+
+    <string name="app_name">SeekBarPreference Sample</string>
+
+    <string name="settings_title_seekbar">Percentage</string>
+    <string name="settings_summary_seekbar">[ %1$s%% ]</string>
+
+    <string name="pref_key_seekbar">key_seekbar</string>
+    <integer name="pref_max_seekbar">100</integer>
+    <integer name="pref_default_value_seekbar">100</integer>
+</resources>

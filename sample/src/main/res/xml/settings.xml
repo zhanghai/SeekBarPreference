@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2015 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
+  ~ All Rights Reserved.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <me.zhanghai.android.seekbarpreference.SeekBarPreference
+        android:key="@string/pref_key_seekbar"
+        android:max="@integer/pref_max_seekbar"
+        android:defaultValue="@integer/pref_default_value_seekbar"
+        android:title="@string/settings_title_seekbar"
+        android:summary="@string/settings_summary_seekbar" />
+</PreferenceScreen>

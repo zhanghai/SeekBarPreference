@@ -72,11 +72,6 @@ public class SeekBarPreferenceDialogFragment extends PreferenceDialogFragmentCom
         }
     }
 
-    /**
-     * Adds the SeekBar widget of this preference to the dialog's view.
-     *
-     * @param dialogView The dialog view.
-     */
     private void onAddSeekBarToDialogView(View dialogView, SeekBar seekBar) {
         ViewGroup container = (ViewGroup) dialogView.findViewById(R.id.sbp_seekbar_container);
         if (container != null) {
@@ -87,10 +82,12 @@ public class SeekBarPreferenceDialogFragment extends PreferenceDialogFragmentCom
 
     @Override
     public void onDialogClosed(boolean positiveResult) {
-        int value = mSeekBar.getProgress();
-        SeekBarPreference preference = getSeekBarPreference();
-        if (preference.callChangeListener(value)) {
-            preference.setProgress(value);
+        if (positiveResult) {
+            int value = mSeekBar.getProgress();
+            SeekBarPreference preference = getSeekBarPreference();
+            if (preference.callChangeListener(value)) {
+                preference.setProgress(value);
+            }
         }
     }
 

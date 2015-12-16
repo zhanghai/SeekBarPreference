@@ -2,6 +2,21 @@
 
 A `Preference` that shows a `Dialog` with a `SeekBar` widget.
 
+This `Preference` is based on support library `preference-v7`.
+
+## Integration
+
+In your `PreferenceFragmentCompat`, override `onDisplayPreferenceDialog(Preference)` as follows:
+
+```java
+@Override
+public void onDisplayPreferenceDialog(Preference preference) {
+    if (!SeekBarPreference.onDisplayPreferenceDialog(this, preference)) {
+        super.onDisplayPreferenceDialog(preference);
+    }
+}
+```
+
 ## Usage
 
 This `SeekBarPreference` is written according to `EditTextPreference` implementation, and can be used in a similar way.
@@ -16,7 +31,7 @@ The summary of `SeekBarPreference` is optionally formatted with its progress and
 
 ## License
 
-    Copyright 2014 Zhang Hai
+    Copyright 2015 Zhang Hai
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
