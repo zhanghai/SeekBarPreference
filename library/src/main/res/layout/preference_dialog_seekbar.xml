@@ -14,7 +14,7 @@
     android:overScrollMode="ifContentScrolls">
 
     <LinearLayout
-        android:id="@+id/seekbar_container"
+        android:id="@+id/sbp_seekbar_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dip"

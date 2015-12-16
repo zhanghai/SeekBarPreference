@@ -6,5 +6,5 @@
   -->
 
 <resources>
-    <item name="seekbar" type="id" />
+    <item name="sbp_seekbar" type="id" />
 </resources>

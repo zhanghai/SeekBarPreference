@@ -1,4 +1,4 @@
-package me.zhanghai.seekbarpreference;
+package me.zhanghai.android.seekbarpreference;
 
 /*
  * Copyright (c) 2014 Zhang Hai <Dreaming.in.Code.ZH@Gmail.com>
@@ -6,66 +6,92 @@ package me.zhanghai.seekbarpreference;
  */
 
 import android.annotation.TargetApi;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.preference.DialogPreference;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.preference.DialogPreference;
+import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.AttributeSet;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.SeekBar;
 
 public class SeekBarPreference extends DialogPreference {
 
-    private static final int[] R_styleable_DialogPreference =
-            new int[] {android.R.attr.dialogLayout};
-    private static final int R_styleable_DialogPreference_dialogLayout = 0;
+    // As in PreferenceFragmentCompat, because we want to ensure that at most one dialog is showing.
+    private static final String DIALOG_FRAGMENT_TAG =
+            "android.support.v7.preference.PreferenceFragment.DIALOG";
 
     private SeekBar mSeekBar;
 
     private int mProgress;
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public SeekBarPreference(Context context, AttributeSet attrs, int defStyleAttr,
-                             int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
+    /**
+     * Users should override {@link PreferenceFragmentCompat#onDisplayPreferenceDialog(Preference)}
+     * and check the return value of this method, only call through to super implementation if
+     * {@code false} is returned.
+     *
+     * @param preferenceFragment The preference fragment
+     * @param preference The preference, as in
+     * {@link PreferenceFragmentCompat#onDisplayPreferenceDialog(Preference)}
+     * @return Whether the call has been handled by this method.
+     */
+    public static boolean onDisplayPreferenceDialog(PreferenceFragmentCompat preferenceFragment,
+                                                    Preference preference) {
+
+        if (preference instanceof SeekBarPreference) {
+            // TODO: Call getChildFragmentManager() instead? But support library calls
+            // getFragmentManager() inside PreferenceFragmentCompat.
+            FragmentManager fragmentManager = preferenceFragment.getFragmentManager();
+            if(fragmentManager.findFragmentByTag(DIALOG_FRAGMENT_TAG) == null) {
+                SeekBarPreferenceDialogFragment dialogFragment =
+                        SeekBarPreferenceDialogFragment.newInstance(preference.getKey());
+                dialogFragment.setTargetFragment(preferenceFragment, 0);
+                dialogFragment.show(fragmentManager, DIALOG_FRAGMENT_TAG);
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    public SeekBarPreference(Context context) {
+        super(context);
+
+        init(context, null);
+    }
+
+    public SeekBarPreference(Context context, AttributeSet attrs) {
+        super(context, attrs);
+
         init(context, attrs);
     }
 
     public SeekBarPreference(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
         init(context, attrs);
     }
 
-    public SeekBarPreference(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context, attrs);
-    }
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public SeekBarPreference(Context context, AttributeSet attrs, int defStyleAttr,
+                             int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
 
-    public SeekBarPreference(Context context) {
-        this(context, null);
+        init(context, attrs);
     }
 
     private void init(Context context, AttributeSet attrs) {
 
-        // HACK: We cannot easily use defStyleAttr, so we set the default dialog layout resource
-        // here.
-        // No defStyleAttr or defStyleRes to obtain the value specified in XML.
-        final TypedArray a = context.obtainStyledAttributes(attrs, R_styleable_DialogPreference);
-        int dialogLayoutResId = a.getResourceId(R_styleable_DialogPreference_dialogLayout, 0);
-        a.recycle();
-        if (dialogLayoutResId == 0) {
+        // Catch the case when no style is provided.
+        if (getDialogLayoutResource() == 0) {
             setDialogLayoutResource(R.layout.preference_dialog_seekbar);
         }
 
         mSeekBar = new SeekBar(context, attrs);
-        mSeekBar.setId(R.id.seekbar);
+        mSeekBar.setId(R.id.sbp_seekbar);
         /*
          * The preference framework and view framework both have an 'enabled'
          * attribute. Most likely, the 'enabled' specified in this XML is for
@@ -127,79 +153,6 @@ public class SeekBarPreference extends DialogPreference {
      */
     public CharSequence getRawSummary() {
         return super.getSummary();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void onBindDialogView(View view) {
-        super.onBindDialogView(view);
-
-        SeekBar seekBar = mSeekBar;
-        seekBar.setProgress(mProgress);
-
-        ViewParent oldParent = seekBar.getParent();
-        if (oldParent != view) {
-            if (oldParent != null) {
-                ((ViewGroup) oldParent).removeView(seekBar);
-            }
-            onAddSeekBarToDialogView(view, seekBar);
-        }
-    }
-
-    /**
-     * Adds the SeekBar widget of this preference to the dialog's view.
-     *
-     * @param dialogView The dialog view.
-     */
-    protected void onAddSeekBarToDialogView(View dialogView, SeekBar seekBar) {
-        ViewGroup container = (ViewGroup) dialogView.findViewById(R.id.seekbar_container);
-        if (container != null) {
-            container.addView(seekBar, ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
-        super.onPrepareDialogBuilder(builder);
-
-        builder.setOnKeyListener(new DialogInterface.OnKeyListener() {
-            @Override
-            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                if (event.getAction() != KeyEvent.ACTION_UP) {
-                    if (keyCode == KeyEvent.KEYCODE_PLUS
-                            || keyCode == KeyEvent.KEYCODE_EQUALS) {
-                        mSeekBar.setProgress(getProgress() + 1);
-                        return true;
-                    }
-                    if (keyCode == KeyEvent.KEYCODE_MINUS) {
-                        mSeekBar.setProgress(getProgress() - 1);
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void onDialogClosed(boolean positiveResult) {
-        super.onDialogClosed(positiveResult);
-
-        if (positiveResult) {
-            int value = mSeekBar.getProgress();
-            if (callChangeListener(value)) {
-                setProgress(value);
-            }
-        }
     }
 
     /**
