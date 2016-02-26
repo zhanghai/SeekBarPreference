@@ -4,6 +4,8 @@ A `Preference` that shows a `Dialog` with a `SeekBar` widget.
 
 This `Preference` is based on support library `preference-v7`.
 
+![Sample](./screenshot/sample.png)
+
 ## Integration
 
 In your `PreferenceFragmentCompat`, override `onDisplayPreferenceDialog(Preference)` as follows:
