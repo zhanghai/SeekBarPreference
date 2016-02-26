@@ -11,6 +11,8 @@
 
     <string name="settings_title_seekbar">Percentage</string>
     <string name="settings_summary_seekbar">[ %1$s%% ]</string>
+    <string name="settings_title_view_on_github">View on GitHub</string>
+    <string name="settings_summary_view_on_github">DreaminginCodeZH/SeekBarPreference</string>
 
     <string name="pref_key_seekbar">key_seekbar</string>
     <integer name="pref_max_seekbar">100</integer>
