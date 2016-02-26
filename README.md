@@ -4,7 +4,7 @@ A `Preference` that shows a `Dialog` with a `SeekBar` widget.
 
 This `Preference` is based on support library `preference-v7`.
 
-![Sample](./screenshot/sample.png)
+![Sample](./screenshot/sample-small.png)
 
 ## Integration
 
